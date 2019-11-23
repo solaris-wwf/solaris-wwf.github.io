@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style type="text/css">
+    *{text-decoration: none;margin: 0;padding: 0;list-style: none;outline: none;}
+    /* 场景 */
+    #content{height: 400px;width: 600px;position: relative;left: 50%;margin-left: -300px;border: 1px solid #333;overflow: hidden;;}
+    /* 底部放置功能区域 */
+    #content #bottom{height: 40px;width: 600px;border-top: 1px solid #333;position: absolute;bottom: 0;;}
+    #content #bottom ul li{float: right;}
+    #content #bottom ul li a{display: block;height: 40px;width: 80px;border-left: 1px solid #333;text-align: center;line-height: 40px;}
+    /* 弹幕内容 */
+    #content #bottom input{height: 36px;width: 300px;float: left;margin-left: 20px;}
+    /* 弹幕 */
+    .txtDm{position: absolute;left: 600px;border: 1px solid #333;display: inline-block;}
+    .ycDm{display: none;}
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="content" class="content">
+        <div id="bottom">
+            <input id="textDm" type="text" placeholder="请输入">
+            <ul>
+                <li><a href="#">全屏</a></li>
+                <li><a href="#">隐藏弹幕</a></li>
+                <li><a href="#">发送</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    window.onload = function(){
+        var content = document.getElementById('content');
+        var dm = document.getElementById('textDm');
+        var btnSendTxt = document.querySelector('#bottom ul li:nth-of-type(3) a');
+        var ycTxt = document.querySelector('#bottom ul li:nth-of-type(2) a');
+         //点击按钮发送弹幕
+        btnSendTxt.addEventListener('click',function(){
+            txtDm(dm.value);
+        })
+        //点击隐藏弹幕
+        var ycDmTimer;
+        ycTxt.addEventListener('click',function(){
+            if(ycTxt.innerHTML == '隐藏弹幕'){
+                ycDmTimer = setInterval(function(){
+                    var txtDm = document.getElementsByClassName('txtDm');
+                    for(var i = 0; i < txtDm.length; i++){
+                        txtDm[i].style.left = '-1111px';
+                    }
+                },10);
+                ycTxt.innerHTML = '显示弹幕';
+            }else{
+                clearInterval(ycDmTimer);
+                ycTxt.innerHTML = '隐藏弹幕';
+            }
+        }) 
+    }
+    
+   
+    //弹幕的构造函数
+    function txtDm(msg){
+        var divTxt = document.createElement('div');
+        var divTxtStyle = window.getComputedStyle(divTxt);
+        divTxt.className = 'txtDm';
+        divTxt.innerHTML = msg;
+        divTxt.style.top = mathRandom(0,100) + 'px';
+        content.appendChild(divTxt);
+        divTxt.id = setInterval(function(){
+            var curLeft = parseInt(divTxtStyle.left);
+            divTxt.style.left = curLeft - 1 + 'px';
+            if(parseInt(divTxt.style.left) + divTxt.offsetWidth < -10){
+                clearInterval(divTxt.id);
+                divTxt.remove();
+            }
+        },10);
+    }
+    //随机数学函数x-y之间的随机数字
+    function mathRandom(x,y){
+        return Math.random() * (y - x + 1) + x;
+    }
+</script>

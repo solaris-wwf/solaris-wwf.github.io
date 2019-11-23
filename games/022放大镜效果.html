@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style type="text/css">
+    *{margin: 0;padding: 0;list-style: none;text-decoration: none;}
+    img{display: block;background-repeat: no-repeat;}
+    #content{height: 240px;width: 200px;position: relative;left: 50%;margin-left: -100px;}
+    #fw{height: 80px;width: 80px;background: rgba(11, 11, 11, .5);position: absolute;z-index: 10;}
+    #bigimg{height: 240px;width: 240px;position: absolute;left: 200px;border: 1px solid #333;overflow: hidden;display: none;background: url('../img/1.jpg') no-repeat;}
+    #middleimg{height: 190px;width: 200px;position:absolute;}
+    #middleimg img{height: 190px;width: 200px;}
+    #smallimg{position: absolute;bottom: 0;height: 50px;width: 200px;}
+    #smallimg img{float: left;height: 48px;width: 49px;}
+    .border{border: 1px solid #333;}
+    .bordernone{border: none;}
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="content">
+        
+        <div id="bigimg"></div>
+        <div id="middleimg">
+            <img src="" alt="">
+            <div id="fw"></div>
+        </div>
+        <div id="smallimg">
+            <img src="../img/1.jpg" alt="" class="border">
+            <img src="../img/2.jpg" alt="">
+            <img src="../img/3.jpg" alt="">
+            <img src="../img/4.jpg" alt="">
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    function $(el){
+        return document.getElementById(el);
+    }
+    var content = $('content');
+    var bigImg = $('bigimg');
+    var middleImg = $('middleimg');
+    var smallImg = $('smallimg');
+    var fw = $('fw');
+    window.onload = function(){
+        init();
+    }
+    
+    function init(){
+        //设定默认中图片为第一张图片
+        middleImg.children[0].src = '../img/1.jpg';
+        smallImgBorderMouseover();
+        middleImgMouseEvent();
+
+    }
+    //当鼠标划过小图片的时候出现边框，并让中图片和大图片都显示相应的图片
+    function smallImgBorderMouseover(){
+        for(var i = 0;i < smallImg.children.length;i++){
+            //如果出现鼠标移入事件，遍历所有的小图片，让小图片的类样式为空，相当于移除了默认第一个有边框的样式。
+            smallImg.children[i].onmouseenter = function(){
+                for(var j = 0;j < smallImg.children.length;j++){
+                    smallImg.children[j].className = '';
+                }
+                //让相应的小图片框显示边框
+                this.className = 'border';
+                //取得当前小图片的src的图片的索引，例如返回/1.jpg字符串
+                var imgSrc = this.src.slice(this.src.lastIndexOf('/'));
+                //让中图片和大图片在鼠标移入事件中显示相应的图片。
+                middleImg.children[0].src = '../img' + imgSrc;
+                bigImg.style.background = 'url("../img'+ imgSrc + '") no-repeat';
+            }
+        }
+    }
+    //中图片鼠标事件，包括小范围跟随的框和放大图片的跟随
+    function middleImgMouseEvent(){
+        middleImg.onmousemove = function(e){
+            var evt = e || window.event;
+            //取得范围框的在中图片框的X,Y中心点
+            var fwCenterX = evt.clientX - fw.offsetWidth / 2 - content.offsetLeft;
+            var fwCenterY = evt.clientY - fw.offsetHeight / 2;
+            //不超出边界
+            if(fwCenterX < 0){
+                fwCenterX = 0;
+            }
+            if(fwCenterY < 0){
+                fwCenterY = 0;
+            }
+            if(fwCenterX > 120){
+                fwCenterX = 120 ;
+            }
+            if(fwCenterY > 110){
+                fwCenterY = 110;
+            }
+            //让范围框跟随鼠标
+            fw.style.left = fwCenterX + 'px';
+            fw.style.top = fwCenterY + 'px';
+            //让大图片显示跟随鼠标所指的区域
+            bigImg.style.backgroundPosition = '-' + fw.offsetLeft*3  + 'px'+' -' + fw.offsetTop*3 + 'px';
+        }
+        //鼠标进入中图片框的时候让放大区域和范围框显示
+        middleimg.onmouseenter = function(){
+            bigImg.style.display = 'block';
+            fw.style.display = 'block';
+            
+        }
+        //鼠标移出中图片框的时候让放大区域和范围框消失
+        middleimg.onmouseleave = function(){
+            bigImg.style.display = 'none';
+            fw.style.display = 'none';
+        }
+    }
+    
+    
+</script>

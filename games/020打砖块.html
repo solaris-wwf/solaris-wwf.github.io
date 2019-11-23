@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style type="text/css">
+        *{margin: 0;padding: 0;}
+        /* 场景 */
+        #scence1{position: relative;height: 400px;width: 656px;border: 1px solid #333;top: 50%;left: 50%;margin-left: -300px;margin-top: 50px;}
+        #scence{height: 400px;width: 656px;position:absolute;}
+        /* 小砖块 */
+        .xzk{height: 20px;width: 80px;background: #888;border: 1px solid #000;position: absolute;left: 0;}
+        /* 打击球 */
+        .dot{height: 10px;width: 10px;border-radius: 50%;background: #333;position: absolute;top: 340px;left: 300px;}
+        /* 回弹的杆子 */
+        .gz{height: 10px;width: 150px;position: absolute;background: #222;border-radius: 10px;top: 350px;left: 270px;}
+        /* 重新开始游戏 */
+        #reloadGame{height: 100px;cursor: pointer;width: 150px;background: rgba(55, 55, 55, .5);position: absolute;top: 50%;left: 50%;margin-top: -50px;margin-left: -75px;line-height: 100px;text-align: center;display: none;}
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="scence1">
+        <div id="scence"></div>
+        <div id="reloadGame">重新开始</div>
+    </div>
+    
+</body>
+</html>
+<script>
+    var scence1 = document.getElementById('scence1');
+    var scence = document.getElementById('scence');
+    var reloadGame = document.getElementById('reloadGame');
+    
+    window.onload = function(){
+        gzMove();
+    }
+    //创建小砖块
+    createSquare();
+    function createSquare(){
+        for(var i = 0;i < 5; i++){//5行
+            var xzkTop = i * 22;//高度22
+            for(var j = 0;j < 8;j++){//8列
+                var xzk = document.createElement('div');
+                xzk.className = 'xzk';
+                xzk.style.backgroundColor = 'rgb(' + mathRandom(0,255) + ',' + mathRandom(0,255) + ',' + mathRandom(0,255) + ')';//随机彩色底色
+                scence.appendChild(xzk);
+                scence.children[8 * i +j].style.left += 82 * j + 'px';//每个小砖块的宽度是82
+                scence.children[8 * i +j].style.top += xzkTop + 'px';
+            }
+        }
+    }
+    
+    //创建杆子
+    var gz = document.createElement('div');
+    gz.className = 'gz';
+    scence1.appendChild(gz);
+    gz.moveX = 10;
+    
+    
+//杆子键盘事件运动核心函数
+    function gzMove(){
+        document.addEventListener('keydown',function(e){
+            var evt = e || window.event;
+            var curGzX = gz.offsetLeft;
+            if(gz.offsetLeft < 0){
+                gz.style.left = '0px';
+            }
+            if(gz.offsetLeft > 656 - 150){
+                gz.style.left = '506px';
+            }
+            if(evt.keyCode == 65 && gz.offsetLeft > 0){//a
+                gz.style.left = curGzX + gz.moveX * -1 + 'px';
+            }
+            if(evt.keyCode == 68 && gz.offsetLeft < 656 - 150){//d
+                gz.style.left = curGzX + gz.moveX + 'px';
+            }
+        })
+    }
+    
+    //创建小球
+    var dot = document.createElement('div');
+    dot.className = 'dot';
+    scence1.appendChild(dot);
+    dot.moveX = 2;
+    dot.moveY = 2;
+    var mark = 0;
+
+
+    //小球运动函数
+    function dotMove(){
+        var curX = dot.offsetLeft;
+        var curY = dot.offsetTop;
+        check_border_conllision(dot);
+        if(check_conllision(dot,gz)){//杆子和小球碰撞时候让小球反弹
+            
+        }
+        for(var i = 0; i < scence.children.length; i++){
+            if(check_conllision(dot,scence.children[i])){
+                scence.removeChild(scence.children[i]);
+                mark++;
+            }
+        }
+        if(scence.children.length == 0){
+            reloadGame.innerHTML = '总分：' + mark + '  重新开始'; 
+            reloadGame.style.display = 'block';
+        }
+        dot.style.left = curX + dot.moveX + 'px';
+        dot.style.top = curY + dot.moveY + 'px';
+    }
+
+   //重新开始游戏
+   reloadGame.addEventListener('click',function(){
+        location.reload();
+    })
+        
+    
+   
+    //开始游戏
+    var dotTimer = setInterval(function(){
+        dotMove();
+    },10);
+
+
+
+    //盒子碰撞到了页面边缘检测
+    function check_border_conllision(el){
+        var elStyle = window.getComputedStyle(el);
+        var left = parseInt(elStyle.left);
+        var top = parseInt(elStyle.top);
+        var w = parseInt(elStyle.width);//div的宽度
+        var h = parseInt(elStyle.height);
+        if(left < 0){//如果左侧位置是负值，则将它设为0，平移值转换
+            left = 0;
+            el.moveX *= -1;
+        }
+        if(left > scence.offsetWidth - w){//如果现在的左侧距离大于了页面宽度减去div的宽度，表示右边已经撞上了。
+            left = scence.offsetWidth -w;
+            el.moveX *= -1;
+        }
+        if(top < 0){
+            top = 0;
+            el.moveY *= -1;
+        }
+        if(top > scence.offsetHeight - h){
+            top = scence.offsetHeight - h;
+            reloadGame.innerHTML = '总分：' + mark + '  重新开始'; 
+            reloadGame.style.display = 'block';
+            clearInterval(dotTimer);
+        }
+        el.style.left = left + 'px';
+        el.style.top = top + 'px';
+    }
+    //检测两个物体相撞
+    function check_conllision(el,el2){
+        var style1 = window.getComputedStyle(el);
+        var style2 = window.getComputedStyle(el2);
+        var left1 = parseInt(style1.left);
+        var left2 = parseInt(style2.left);
+        var top1 = parseInt(style1.top);
+        var top2 = parseInt(style2.top);
+        var w1 = parseInt(style1.width);
+        var w2 = parseInt(style2.width);
+        var h1 = parseInt(style1.height);
+        var h2 = parseInt(style2.height);
+        var style1Zx = {x:left1 + w1 / 2,y:top1 + h1 / 2};//箱子1的中心点位置
+        var style2Zx = {x:left2 + w2 / 2,y:top2 + h2 / 2};//箱子2的中心点位置
+        var leftc = Math.abs(style1Zx.x - style2Zx.x);//取绝对值
+        var topc = Math.abs(style1Zx.y - style2Zx.y);
+        if(leftc <= (w1 + w2)/2 && topc <= (h1 + h2)/2){//如果箱子的中心点小于他们的高度和宽度一半之和，我们判断为相撞
+            if(leftc <= (w1 + w2)/2){
+                el.moveY *= -1;
+                return true;
+            }
+            if(topc <= (h1 + h2)/2){
+                el.moveX *= -1;
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+        //随机数学函数x到y之间的随机数
+    function mathRandom(x,y){
+        return Math.random() * (y - x + 1) + x;
+    }
+</script>

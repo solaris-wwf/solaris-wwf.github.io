@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style type="text/css">
+    *{margin: 0;padding: 0;}
+    body{background: #333;}
+    /* 得分显示 */
+    .mark{height: 20px;width: 100px;position: fixed;top: 120px;left: 200px;}
+    /* 游戏显示区域 */
+    #canvas{border: 1px solid #333;border-radius: 10px;top:0;left: 0;right: 0;bottom: 0;margin: auto;position: fixed;background: #fff;}
+    /* 游戏结束后总分显示和重新开始 */
+    #res{position: fixed;top:50%;left: 50%;margin-top: -25px;margin-left: -100px;;background:rgba(55, 55, 55, .3);height: 100px;width: 200px;border-radius: 20px;display: none;}
+    /* 总分 */
+    #res h2{padding: 5px 0;text-align: center;}
+    /* 重新开始 */
+    #res a{height: 30px;width: 80px;background:#333;color: #eee;;margin: 0 auto;display: block;text-decoration: none;line-height: 30px;text-align: center;}
+    #res img{height: 50px;width: 50px;display: block;margin: 0 auto;border-radius: 50%;}
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas" height="400" width="800"></canvas>
+    <div class="mark" id="mark">得分:0</div>
+    <div class="res" id="res">
+        <h2>得分:0</h2>
+        <a id="reloadGame" href="#">重新开始</a>
+        <img src="" alt=""/>
+    </div>
+    
+
+</body>
+</html>
+<script>
+    
+    var birdX = 200;//鸟出现在画板上的位置
+    var birdY = 200;
+    var bird = new Image();
+    bird.src = '../img/birdup.png';
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    var birdTimer = null;//设置定时器的id
+    var columnTimer = null;
+    window.onload = function(){
+        createColomn ();
+        removeColumn();
+    }
+    
+    //创建一个鸟
+    bird.onload = function(){
+        if(birdTimer == null){
+            birdTimer = setInterval(function(){
+                if(birdY <= 370){//如果小鸟没有到最下边，就继续下落
+                    birdY++;
+                }
+                context.clearRect(0,0,800,400);//先清空图层，要不然每一帧的图像都将保留在canvas上
+                drawColumn();//调用绘制柱子的函数
+                context.drawImage(bird,birdX,birdY);
+            },10)
+        }
+    };
+    //按下空格键事件,小鸟的翅膀挥动效果
+    document.onkeydown = function(e){
+        bird.src = '../img/birddown.png';
+        if(e.keyCode == 32 && birdY >= 10){
+            birdY -= 30;
+        }
+    }
+    document.onkeyup = function(e){
+        bird.src = '../img/birdup.png';
+        if(e.keyCode == 32 && birdY >= 10){
+        }
+    }
+    //创建柱子
+    var columnArr = [];//柱子容器
+    function createColomn (){
+        columnTimer = setInterval(function(){
+            var column = {};//每个柱子的参数
+            column.X = 900;//柱子从最右边出现
+            column.Y = -Math.round(Math.random() * 100 +50);//柱子离上边的距离的随机0-150
+            column.id = new Date().getTime();//设置柱子的id用时间来表示
+            column.columnA = new Image();//下边的柱子
+            column.columnB = new Image();//上边的柱子
+            column.columnA.src = '../img/columnA.png';
+            column.columnB.src = '../img/columnB.png';
+            columnArr.push(column);
+        },1500);
+    }
+    
+    //删除掉数组中超出页面的柱子。
+    var removeCoTimer = null;
+    function removeColumn(){
+        removeCoTimer = setInterval(function(){
+            for(var i = 0; i < columnArr.length; i++){
+                if(columnArr[i].X < -100){
+                    columnArr.splice(i,1);
+                    console.log(columnArr.length);
+                }
+            }
+        },1000);
+    }
+    
+    //绘制柱子
+    var colId = null;
+    var mark = 0;
+    function drawColumn(){
+        for(var i = 0; i < columnArr.length;i++){
+            columnArr[i].X--;
+            context.drawImage(columnArr[i].columnB,columnArr[i].X,columnArr[i].Y);
+            context.drawImage(columnArr[i].columnA,columnArr[i].X,columnArr[i].Y + 350);
+            if(birdX + 35 >= columnArr[i].X && birdX <= columnArr[i].X + 56){
+                if(birdY <= columnArr[i].Y + 234 || birdY + 26 >= columnArr[i].Y + 350){
+                    clearInterval(birdTimer);
+                    clearInterval(columnTimer);
+                    var res = document.getElementById('res');
+                    
+                    res.style.display = "block";
+                    res.children[0].innerHTML = '得分:' + mark;
+                }else{
+                    if(columnArr[i].id != colId){
+                        mark++;
+                        colId = columnArr[i].id; 
+                        document.getElementById('mark').innerHTML = '得分:' + mark;
+                    }
+                }
+            }
+        }
+    }
+    //重新开始游戏。
+    var a = document.getElementById('reloadGame');
+    a.addEventListener('click',function(){
+        location.reload();
+    });
+</script>

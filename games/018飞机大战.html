@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="../js/animate.js"></script>
+    <style type="text/css">
+    *{margin: 0;padding: 0;}
+    /* 显示区域 */
+    #contenter{height: 768px;width: 512px;position: relative;left: 350px;overflow: hidden;}
+    /* 背景 */
+    .bg{height: 768px;width: 512px;position: absolute;background: url("../img/fjbg.jpg")}
+    #bg2{top: -768px;}
+    /* 飞机 */
+    .fj{height: 61px;width: 79px;background: url("../img/fj.png");left: 200px;top: 680px;position: absolute}
+    /* 子弹 */
+    .bullet{height: 10px; width: 5px;background: #fff;border: 1px solid #333;position: absolute;}
+    /* 敌军 */
+    .dj{height: 80px;width: 80px;background: #333;position: absolute;top: 150px;}
+    .xs{display: none;}
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="contenter"> 
+        <div id="bg1" class="bg"></div>
+        <div id="bg2" class="bg"></div>
+        <div id="fj" class="fj"></div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    var curX,curY,moveX,moveY;
+    var bg1 = document.getElementById('bg1');
+    var bg2 = document.getElementById('bg2');
+    var contenter = document.getElementById('contenter');
+    var fj = document.getElementById('fj');
+    var bullet = document.getElementsByClassName('bullet');
+    var dj = document.getElementsByClassName('dj');
+
+    
+
+//让背景滚动起来
+    var timer = setInterval(function(){
+        bg1.style.top = bg1.offsetTop + 1 +'px';
+        bg2.style.top = bg2.offsetTop + 1 +'px';
+        if(bg1.offsetTop >= 768){
+            bg1.style.top = '0px';
+            bg2.style.top = '-768px';
+        }
+    },20);
+//产生子弹
+    var t2 = setInterval(function() {
+        var bullet = document.createElement('div');
+        bullet.className = 'bullet';
+        bullet.id = 'bullet';
+        contenter.appendChild(bullet);
+        bullet.style.left = fj.offsetLeft + 35  + 'px';
+        bullet.style.top = fj.offsetTop + 'px';
+        var timeBulletFLY = setInterval(function(){
+            bullet.style.top = bullet.offsetTop - 20 + 'px';
+            if(bullet.offsetTop <= -20){
+                contenter.removeChild(bullet);
+                clearInterval(timeBulletFLY);
+            }
+        bullet.timer = timeBulletFLY;
+        },50);
+        
+    }, 1000);
+//产生敌军
+    var y = 450;var x = 0;
+    var t3 = setInterval(function() {
+        var dj = document.createElement('div');
+        dj.className = 'dj';
+        dj.id = 'dj';
+        contenter.appendChild(dj);
+        dj.style.left = Math.random() * (y - x + 1) + x  + 'px';
+        dj.style.top = 0 + 'px';
+        //让敌军飞
+        var timeDjtFLY = setInterval(function(){
+            dj.style.top = dj.offsetTop + 10 + 'px';
+            if(dj.offsetTop >= 800){//如果这颗子弹超过了画布，则移除这个元素和清除这个定时器。
+                contenter.removeChild(dj);
+                clearInterval(timeDjtFLY);
+            }
+        dj.timer = timeDjtFLY;
+        },50);
+        /* */
+    }, 1500);
+    
+    contenter.addEventListener('mousedown',function(e){
+        var ev = e || event;
+        curX = ev.pageX;
+        curY = ev.pageY;
+        fj.style.left = curX - contenter.offsetLeft - fj.offsetWidth / 2 + 'px';
+        fj.style.top = curY - fj.offsetHeight / 2 + 'px';
+        
+
+        contenter.addEventListener('mousemove',function(e){
+            var evt = e || event;
+            moveX = evt.pageX - curX;
+            curX = evt.pageX;
+            moveY = evt.pageY - curY;
+            curY = evt.pageY;
+            fj.style.left = fj.offsetLeft + moveX + 'px';
+            fj.style.top = fj.offsetTop + moveY + 'px';
+            
+        });
+    })
+    
+
+//子弹和敌军检测碰撞
+var timePz = setInterval(function(){
+        for(var i = 0 ; i < bullet.length; i++){
+            for(var j = 0; j < dj.length; j++){
+                if(check_conllision(bullet[i],dj[j])){
+                    clearInterval(bullet[i].timer);
+                    clearInterval(dj[j].timer);
+                    contenter.removeChild(bullet[i]);
+                    contenter.removeChild(dj[j]);
+                   
+                } 
+            }
+        }
+    },50);
+//飞机和敌军检测碰撞
+var timeDie = setInterval(function(){
+    for(var j = 0; j < dj.length; j++){
+        if(check_conllision(fj,dj[j])){
+            for(var i = 0; i < 100; i++){
+                clearInterval(i);
+            }
+            
+        } 
+    }
+},50);
+</script>

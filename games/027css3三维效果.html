@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style type="text/css">
+    *{margin: 0;padding: 0;}
+    body{background: #000;}
+        /* 显示区域 */
+        #content{height: 150px;width: 150px;perspective: 800px;margin: 50px auto;}
+            #content #img3d{width: 150px;transform-style: preserve-3d;transition: all .5s;position: absolute;left:50%;margin-left: -70px;top: 50%;}
+            /* 显示的图片 */
+            #content #img3d img{height: 200px;width: 150px;position: absolute;transition: all .5s;border-radius: 10px;box-shadow: 0 0 15px #fff;}
+            /* 当前显示的图片外框加一个特效 */
+            #content #img3d img.active{box-shadow: 0 0 15px #f99;}
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="content">
+        <div id="img3d">
+            <img  src="../img/1.jpg" alt="">
+            <img  src="../img/1.jpg" alt="">
+            <img  src="../img/1.jpg" alt="">
+            <img  src="../img/1.jpg" alt="">
+            <img  src="../img/1.jpg" alt="">
+            <img  src="../img/1.jpg" alt="">
+            <img  src="../img/1.jpg" alt="">
+            <img  src="../img/1.jpg" alt="">
+            <img  src="../img/1.jpg" alt="">
+        </div>
+    </div>
+</body>
+</html>
+<script>
+var img3d = document.getElementById('img3d');
+var imgs = img3d.children;
+//因为有9张图片，所以按照40度进行划分，形成一个圆。规定rotateY(0)，如果一张图片过了180度，这样不会使图片产生反转的bug
+    for(var i = 0;i < imgs.length; i++){
+        imgs[i].style.transform = 'rotateY('+ i * 40 +'deg) translateZ(250px) rotateY(0)';
+    }
+    //点击页面的时候，让圆开始旋转。
+    var index = 0;
+    document.onclick = function(){
+        index++;
+        balanceImg(index);
+    }
+    //初始化页面效果。
+    balanceImg(index);
+    //让前一张图片和后一张图片有更好的视觉效果，进行判断。
+    function balanceImg(index){
+        img3d.style.transform = 'rotateY('+ -index * 40 +'deg)';
+       var nowImg = index % 9;//当前图片下标
+       var preImg = nowImg -1;//前一张图片下标
+       var nextImg = nowImg + 1;//后一张图片下标
+       //他的最后和开始的时候有bug，所以需要纠正。
+       if(nowImg == 8){
+           nextImg = 0;
+       }
+       if(nowImg == 0){
+            preImg = 8;
+       }
+       //后一个totateY不会覆盖前面一个，它会在前面一个的基础上进行再次旋转。
+       imgs[nextImg].style.transform = 'rotateY('+ nextImg * 40 +'deg) translateZ(250px) rotateY(-45deg)';
+       imgs[preImg].style.transform = 'rotateY('+ preImg * 40 +'deg) translateZ(250px) rotateY(45deg)';
+       imgs[nowImg].style.transform = 'rotateY('+ nowImg * 40 +'deg) translateZ(250px) rotateY(0deg)';
+       for(var i = 0; i < imgs.length; i++){
+        imgs[i].className = '';
+       }
+       imgs[nowImg].className = 'active';
+    }
+</script>

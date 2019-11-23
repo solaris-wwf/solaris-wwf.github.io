@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- IE8 是被支持的。然而，很多 CSS3 属性和 HTML5 元素是不被支持的。例如，Bootstrap 的响应式布局是通过CSS3的媒体查询（Media Query）功能实现的，根据不同的分辨率来匹配不同的样式，IE8浏览器并不支持这一优秀的CSS3特性。Bootstrap在开发文档中已经明确指出， IE8 需要 Respond.js 配合才能实现对媒体查询（media query）的支持,其中 html5shiv.min.js 文件是让不（完全）支持html5的浏览器支持 html5 标签；respond.js 文件是让IE8实现对媒体查询（media query）的支持。
+    但是，在IE8浏览器中打开页面发现，兼容性问题并没有得到解决（坑、坑、坑）。通过查阅相关资料，笔者总结几点注意事项（效果实现的关键）：
+    本地调试需要Web Server（如IIS、Apache，Nginx），单纯地本地打开文件不能看到兼容效果；
+    如果你发现已经引用了 respond.js 和 Bootstrap，仍无效果，请查看你的Bootstrap是否使用了CDN文件；
+    Bootstrap3 需要Html5文档声明；
+    Jquery 版本需要在2.0以下。 -->
+    <!--[if lt IE 9]>
+    　 <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <header class="col-md-2">
+                <div class="logo">
+                    <a href="#">
+                        <!-- 如果进入超小屏幕，logo图片隐藏 -->
+                        <img src="images/logo.png" alt="" class="hidden-xs">
+                        <!-- 我们先准备一个盒子，在超小屏幕下显示盒子内容 -->
+                        <p class="visible-xs">阿里百秀</p>
+                    </a>
+                </div>
+                <div class="nav">
+                    <ul>
+                        <li><a href="#" class="glyphicon glyphicon-camera">生活馆</a></li>
+                        <li><a href="#" class="glyphicon glyphicon-picture">自然汇</a></li>
+                        <li><a href="#" class="glyphicon glyphicon-phone">科技潮</a></li>
+                        <li><a href="#" class="glyphicon glyphicon-gift">奇趣事</a></li>
+                        <li><a href="#" class="glyphicon glyphicon-glass">美食杰</a></li>
+                    </ul>
+                </div>
+            </header>
+            <article class="col-md-7">
+                <!-- 新闻 -->
+                <div class="news clearfix">
+                    <ul>
+                        <li>
+                            <a href="#">
+                                <img src="upload/lg.png" alt="">
+                                <p>阿里百秀</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="upload/lg.png" alt="">
+                                <p>阿里百秀阿里百秀阿里百秀阿里百秀阿里百秀阿里百秀</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="upload/lg.png" alt="">
+                                <p>阿里百秀</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="upload/lg.png" alt="">
+                                <p>阿里百秀</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="upload/lg.png" alt="">
+                                <p>阿里百秀</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 发表 -->
+                <div class="publish">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <h3>生活馆生活馆生活馆生活馆生活馆生活馆？</h3>
+                            <p class="text-muted hidden-xs">生活馆生活馆生活馆2015-3-3</p>
+                            <p class="hidden-xs">生活馆生活馆生活馆生活馆生活馆生活馆生活馆生活馆生活馆生活馆生活馆生活馆生活馆生活馆生活馆生活馆生活馆生活馆生活馆生活馆生活馆</p>
+                            <p class="text-muted">生活馆生活馆生活馆生活馆生活馆生活馆生活馆/生活馆/生活馆/生活馆/生活馆/生活馆</p>
+                        </div>
+                        <div class="col-sm-3 pic">
+                            <img src="./upload/3.jpg" alt="" class="hidden-xs">
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <aside class="col-md-3">
+                <a href="#" class="asidepic">
+                    <img src="./upload/3.jpg" alt="">
+                </a>
+                <a href="#" class="hot">
+                    <p class="btn btn-primary">热搜</p>
+                    <h4 class="text-primary">还应加入中国博客联盟</h4>
+                    <p class="text-muted">生活馆生活馆生活馆生活馆生活馆生活馆生活馆生活馆生活馆生活馆生活馆..</p>
+                </a>
+            </aside>
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,179 @@
+@import "common";
+body{
+    min-width: 320px;
+    width: 15rem;
+    margin: 0 auto;
+    line-height: 1.5;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #F7F7F7;
+    
+}
+*{
+    box-sizing: border-box;
+    text-align: center;
+}
+img{
+    display: block;
+}
+a{
+    text-decoration: none;
+}
+@bounce:50;
+/* 顶部搜索框 */
+.top{
+    position: relative;
+    overflow: hidden;
+    &::before{
+        content: "";
+        position: absolute;
+        height: 2000rem / @bounce;
+        width: 2000rem / @bounce;
+        border-radius: 2000rem / @bounce;
+        z-index: -1;
+        background: linear-gradient(to right,rgb(255, 220, 220),rgba(255, 0, 0, 0.658));
+        left: -86.5%;
+        top: -1600rem / @bounce;
+    }
+}
+.search-content{
+    position: relative;
+    height: 180rem / @bounce;
+    width: 15rem;
+    margin: 0 auto;
+   
+    .search-one{
+        display: flex;
+        margin: 0 34rem / @bounce;
+        height: 88rem / @bounce;
+        padding-top: 20rem / @bounce;
+        .fenlei{
+            height: 60rem / @bounce;
+            width: 36rem / @bounce;
+            background: url("../img/lb.png");
+            background-size: 36rem / @bounce;
+        }
+        .guanggao{
+            flex: 1;
+            width: 450rem / @bounce;
+            height: 55rem / @bounce;
+            background: url("../img/gg.gif") no-repeat 100rem / @bounce;
+            background-size: 372rem / @bounce;
+        }
+        .login{
+            height: 60rem / @bounce;
+            width: 36rem / @bounce;
+            background: url("../img/login.png");
+            background-size: 36rem / @bounce;
+        }
+    }
+    .search{
+        position: relative;
+        display: block;
+        margin: 16rem / @bounce 34rem / @bounce;
+        height: 60rem / @bounce;
+        flex: 1;
+        border-radius: 50rem / @bounce;
+        background-color: #fff;
+        &::before{
+            content: "";
+            position: absolute;
+            background: url("../img/search.png");
+            background-size: 36rem / @bounce;
+            height: 36rem / @bounce;
+            width: 36rem / @bounce;
+            top: 12rem / @bounce;
+            left: 20rem / @bounce;
+        }
+        &::after{
+            content: "商品/店铺";
+            position: absolute;
+            font-size: .5rem;
+            top: 14rem / @bounce;
+            left: 70rem / @bounce;
+            color: #999;
+        }
+    }
+}
+/* 轮播图 */
+.slideimg{
+    position: relative;
+    height: 260rem / @bounce;
+    width: 15rem;
+    margin: 0 auto;
+    overflow: hidden;
+    img{
+        position: absolute;
+        top: -100rem / @bounce;
+        border-radius: 10rem / @bounce;
+        width: 14rem;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+/* 导航 */
+.nav{
+    height: 320rem / @bounce;
+    width: 15rem;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #fff;
+    a{
+        display: block;
+        width: 3rem;
+        height: 142rem / @bounce;
+        font-size: 20rem / @bounce;
+        color: #666;
+        
+        img{
+            height: 84rem / @bounce;
+            width: 84rem / @bounce;
+            margin: 24rem / @bounce 33rem / @bounce 5rem / @bounce;
+        }
+    }
+}
+/* 满减 */
+.manjian{
+    height: 210rem / @bounce;
+    width: 15rem;
+    display: flex;
+    a{
+        height: 210rem / @bounce;
+        width: 7.5rem;
+        img{
+            width: 7.5rem;
+        }
+    }
+}
+/* 底部 */
+.footer{
+    height: 190rem / @bounce;
+    width: 15rem;
+    position:fixed;
+    bottom: 0;
+    .ljdl{
+        display: block;
+        height: 90rem / @bounce;
+        width: 15rem;
+        background: url("../img/dl.png") no-repeat;
+        background-size: 15rem;
+    }
+    .bottom{
+        height: 100rem / @bounce;
+        width: 15rem;
+        display: flex;
+        background-color: #fff;
+        a{
+            height: 100rem / @bounce;
+            width: 3rem;
+            font-size: 16rem / @bounce;
+            color: #333;
+            padding: 10rem / @bounce 0;
+            img{
+                margin: 0 47rem / @bounce;
+                height: 56rem / @bounce;
+                width: 56rem / @bounce;
+            }
+        }
+        
+    }
+}

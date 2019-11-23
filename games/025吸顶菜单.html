@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style type="text/css">
+        *{margin: 0;padding: 0;}
+        #box{height: 1200px;width: 100%;}
+        #topNav{width: 100%;height: 80px;background: #333;position: fixed;top:-80px;}
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box">
+        <div id="topNav"></div>
+    </div>
+    
+</body>
+</html>
+<script>
+    window.onload = function(){
+        window.onscroll = function(){
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            if(scrollTop > 200){//当滚动条滑动了200以后，吸顶菜单缓缓出现，否则吸顶菜单缓缓消失
+                navMove();
+            }else{
+                navMove2();
+            }
+        }
+        var topNav = document.getElementById('topNav');
+        //顶部banner缓缓出现
+        function navMove(){
+            var curTop = topNav.offsetTop;
+            var navTopTimer = setInterval(function(){
+                curTop += 2;
+                if(curTop == 0){
+                    clearInterval(navTopTimer);
+                }else{
+                    topNav.style.top = curTop + 'px';
+                }
+            },10);
+        }
+        //顶部banner缓缓消失
+        function navMove2(){
+            var curTop = topNav.offsetTop;
+            var navTopTimer2 = setInterval(function(){
+                curTop -= 2;
+                if(curTop <= -90){
+                    clearInterval(navTopTimer2);
+                }else{
+                    topNav.style.top = curTop + 'px';
+                }
+            },10);
+        }
+    }
+</script>

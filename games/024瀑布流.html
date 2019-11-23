@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style type="text/css">
+        *{margin: 0;padding: 0;}
+        li{list-style: none;}
+        #pbl{margin: 0 auto;width: 700px;}
+        ul{width:200px;float: left;margin: 0 auto;margin-right: 10px;}
+        img{width: 200px;padding-top:10px;border-bottom: 1px solid #333;}
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="pbl">
+        <ul></ul>
+        <ul></ul>
+        <ul></ul>
+    </div>
+    <script src="../js/ajax.js"></script>
+    <script>
+    window.onload = function(){
+        var oDiv = document.getElementById('pbl');
+        var oUl = document.getElementsByTagName('ul');
+        var clientHeight = document.documentElement.clientHeight;//可视高度
+        //找到最小高度的列
+        function minHeiht(oUl){
+            var ht = oUl[0].offsetHeight;//可以获取高度，但是高度和实际图片不一样，有问题
+            var index = 0;
+            for(var i = 0;i < oUl.length; i++){
+                if(oUl[i].offsetHeight < ht){
+                    ht = oUl[i].offsetHeight;
+                    index = i;
+                }
+            }
+            return index;
+        }
+        waterFall();
+        //用ajax取出pubuliu.json里面的数组，将它赋值给img元素，调用minHeight函数，匹配最矮的元素ul，放入一张图片。
+        function waterFall(){
+            ajax('../js/pubuliu.json',function(data){
+                var data1 = (new Function('return' + data))();
+                for(var i = 0; i < data1.length; i++){
+                    var oLi = document.createElement('li');
+                    var oImag = document.createElement('img');
+                    oImag.src = data1[i];
+                    oLi.appendChild(oImag);
+                    oUl[minHeiht(oUl)].appendChild(oLi);
+                }
+            })
+        }
+        //当滑动条达到一定高度时，再次加载新的数据 
+        document.onscroll = function(){
+            var sh = document.documentElement.scrollTop || document.body.scrollTop;
+            if(sh + clientHeight >= document.documentElement.scrollHeight * .8){//可视高度加上滚动条距离上边距离的高度如果大于等于滚动条的总高度,为了用户体验更好，乘上0.8，则加载新的数据。
+                waterFall()
+            }
+        }
+    }
+    //封装ajax，返回数据
+    function ajax(url,fn){
+    var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');//兼容ie的ajax
+    xhr.open('GET',url,true);
+    xhr.send();
+    xhr.onreadystatechange = function(){
+        if(xhr.readyState == 4 && xhr.status == 200){
+            fn && fn(xhr.responseText);
+        }
+    }
+}
+    </script>
+</body>
+</html>

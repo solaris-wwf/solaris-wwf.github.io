@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style type="text/css">
+        *{margin: 0;padding: 0;}
+        /* 显示区域 */
+        #slideImg{margin: 50px auto;position: relative;border: 1px solid #333;height: 350px;width: 300px;}
+            /* 大图区域的左右按钮 */
+            #slideImg #left{position: absolute;height: 250px;width: 150px;left: 0;}
+            #slideImg #leftBtn{position: absolute;height: 40px;width: 40px;left: 0;top: 50%;margin-top: -60px;background: rgba(22, 22, 22, .5);opacity: 0;}
+            
+            #slideImg #right{position: absolute;height: 250px;width: 150px;right: 0;}
+            #slideImg #rightBtn{position: absolute;height: 40px;width: 40px;margin-top: -60px;right: 0;top: 50%;background: rgba(22, 22, 22, .5);opacity: 0;}
+            /* 大图 */
+            #slideImg #bigImg{height: 250px;width: 300px;}
+                #slideImg #bigImg img{display: block;width: 300px; height: 250px;}
+            /* 底部小图 */
+            #slideImg #smallImg{height: 100px;width: 300px;position: relative;overflow: hidden;}
+                #slideImg #smallImg #ul{position: absolute;width: 800px;left: -100px;}
+                    #slideImg #smallImg #ul img{display: block;height: 100px;width: 100px;padding: 5px;box-sizing: border-box;float: left;cursor: pointer;opacity: .5;}
+           
+            
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="slideImg">
+        <div id="left"></div>
+        <div id="right"></div>
+        <div id="leftBtn"></div>
+        <div id="rightBtn"></div>
+        <div id="bigImg">
+            <img src="" alt="">
+        </div>
+        <div id="smallImg">
+            <div id="ul">
+                <img class="img" src="../img/1.jpg" alt="">
+                <img class="img" src="../img/2.jpg" alt="">
+                <img class="img" src="../img/3.jpg" alt="">
+                <img class="img" src="../img/4.jpg" alt="">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    function $(el){
+        return document.getElementById(el);
+    }
+    var slideImg = $('slideImg');
+    var bigImg = $('bigImg');
+    var leftBtn = $('leftBtn');
+    var rightBtn = $('rightBtn');
+    var left = $('left');
+    var right = $('right');
+    var smallImg = $('smallImg');
+    var autoTimer;
+    var ul = $('ul');//小图的容器，用来移动所有的小图的left来实现滑动效果。
+    var sImg = document.getElementsByClassName('img');//获取所有小图的对象的对象集
+    var bImg = bigImg.firstElementChild;//获取大图的对象。
+    var curImg = 2;//当前显示图片的下标，因为前面添加了两张图片，最后面添加了两张图片，所以原本第一张图片的下标就变成了2.
+    window.onload = function(){
+        //创建图像，调用函数
+        img();
+        smallImgClick();
+        autoSlide();//自动轮播
+        slideImgMouseOver();
+        slideImgMouseOut();
+        //设置大图的默认图像和默认小图像的透明性为1.
+        bImg.src = '../img' + sImg[curImg].src.slice(sImg[curImg].src.lastIndexOf('/'));
+        sImg[curImg].style.opacity = 1;
+    }
+    
+    //自动轮播
+    function autoSlide(){
+        autoTimer = setInterval(function(){
+            curImg++;
+            slideTo();
+        },4000)
+    }
+    //当鼠标进入轮播图的时候，停止自动播放，移出的时候，进行自动播放。
+    function slideImgMouseOver(){
+        addEvent(slideImg,'mouseover',function(){
+            clearInterval(autoTimer);
+        })
+    }
+    function slideImgMouseOut(){
+        addEvent(slideImg,'mouseout',function(){
+            autoSlide();//自动轮播
+        })
+    }
+    //点击图像滑动图片，
+    function smallImgClick(){
+        for(var i = 0;i < sImg.length; i++){
+            sImg[i].index = i;
+            addEvent(sImg[i],'click',function(){
+                curImg = this.index;
+                slideTo();
+            })
+        }
+    }
+    //图像滑动核心函数
+    function slideTo(){
+        if(curImg == 1){
+            curImg = 6;
+            ul.style.left = -curImg * 100 + 100 + 'px';
+            curImg--;
+        }
+        if(curImg == 6){
+            curImg = 1;
+            ul.style.left = -curImg * 100 + 100 + 'px';
+            curImg++;
+        }
+        bImg.src = '../img' + sImg[curImg].src.slice(sImg[curImg].src.lastIndexOf('/'));
+        var elPro = {'left':-curImg * 100 + 100}
+        animateEl(ul,elPro);
+        //遍历所有的小图片，让他们的透明性为.5，当前下标图片透明性为1
+        for(var i = 0; i < sImg.length; i++){
+            animateEl(sImg[i],{'opacity':.5});
+        }
+        animateEl(sImg[curImg],{'opacity':1});
+    }
+    //创建所有图像，并将图像添加到ul元素中，
+    function img(){
+        var firstImg = document.querySelector('#smallImg img:first-of-type');
+        var firstImgClone = firstImg.cloneNode();
+        var secondImg = document.querySelector('#smallImg img:nth-of-type(2)');
+        var secondImgClone = secondImg.cloneNode();
+        var lastImg = document.querySelector('#smallImg img:last-of-type');
+        var lastImgClone = lastImg.cloneNode();
+        var thirdImg = document.querySelector('#smallImg img:nth-of-type(3)');
+        var thirdImgClone = thirdImg.cloneNode();
+        ul.appendChild(firstImgClone);
+        ul.appendChild(secondImgClone);
+        ul.insertBefore(lastImgClone,firstImg);
+        var topImg = document.querySelector('#smallImg img:first-of-type');
+        ul.insertBefore(thirdImgClone,topImg);
+    }
+    //鼠标点击按钮滑动图片。
+    addEvent(leftBtn,'click',function(){
+        curImg--;
+        slideTo();
+    })
+    addEvent(rightBtn,'click',function(){
+        curImg++;
+        slideTo();
+    })
+    
+    //鼠标进入大图的左区域做按钮出现，右区域，右按钮出现。
+    left.onmouseover = leftBtn.onmouseover = function(){
+        animateEl(leftBtn,{'opacity':1});
+    }
+    left.onmouseout = leftBtn.onmouseout = function(){
+        animateEl(leftBtn,{'opacity':0});
+    }
+    right.onmouseover = rightBtn.onmouseover = function(){
+        animateEl(rightBtn,{'opacity':1});
+    }
+    right.onmouseout = rightBtn.onmouseout = function(){
+        animateEl(rightBtn,{'opacity':0});
+    }
+   
+    //兼容ie6,7,8的事件处理
+    function addEvent(obj,evt,fun){
+        if(obj.addEventListener){
+            obj.addEventListener(evt,fun);
+        }else{
+            obj.attachEvent("on"+evt,fun);
+        }
+    }
+    //封装特效核心函数
+    function getStyle(el,property){//ie8兼容性
+        return el.currentStyle ? el.currentStyle[property] :window.getComputedStyle(el)[property];
+    }
+    function animateEl(el,properties,fn){
+        clearInterval(el.timer);
+        el.timer = setInterval(function() {//设定周期调用函数
+            var stop = true;//设置是否得到的属性都匹配了设定的值，则返回true
+            for(var property in properties){//遍历对象中的键名
+                var curpro;
+                var target = properties[property];
+                if(property == "opacity"){
+                    curpro = Math.round(parseFloat(getStyle(el,property)) * 100);//将值乘以100取整，方便计算speed
+                    target = parseFloat(target)*100;
+                }else{
+                    curpro = parseFloat(getStyle(el,property));//width如果使用parseInt,不会得到指定值，其他可以
+                }
+                var speed = (target - curpro) / 30;//目标距离减去当前距离除以30作为速度。
+                speed = speed > 0 ? Math.ceil(speed): Math.floor(speed);//如果速度大于0，则向上取整，至少为1,相反为-1；
+                if(properties[property] != curpro){//如果这个值没有达到指定值，则设定stop为false，不让定时器停止。
+                    stop = false;
+                }
+                if(property == "opacity"){
+                    el.style[property] =(curpro + speed)/100 ;
+                }else{
+                    el.style[property] =curpro + speed + "px";
+                }
+            }
+            if(stop){//如果一个值匹配了指定值，则停止定时器
+                clearInterval(el.timer);
+                fn && fn();//因为停止了第一个定时器，需要开启下一次运算，用回调函数来决定。这个意思是你返回一个函数，则调用这个函数。
+            }
+        }, 20);
+    }
+</script>
