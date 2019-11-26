@@ -1,0 +1,89 @@
+﻿html,body{background:#fff200 url(../pic/bg.jpg); text-align:center; font-size:10pt; color:#777; margin:0px; font-family:"宋体,Arial";line-height:1.8;MARGIN-RIGHT: auto; MARGIN-LEFT: auto}
+a:link{color:#eee;text-decoration: none;}
+a:visited{color:#eee;text-decoration: none;}
+a:hover{color:#eee;text-decoration: none;}
+a:active{color:#eee;text-decoration: none;}
+p{margin:0;padding:0;line-height:150%;}
+H2{font-family:"微软雅黑"}
+H2 span{font-family:"Arial"}
+a,img{border:0px; margin:0px;}
+
+.mainpage{width:1000px;MARGIN-RIGHT: auto; MARGIN-LEFT: auto}
+.toppic{width:1000px; height:470px;background:url(../pic/topic.png) no-repeat 50% 0%; text-align:left;position:relative}
+.dingpiao{position:absolute; margin:270px 0 0 100px;height:53px; width:174px;background:url(../pic/part/dingpiao.jpg) no-repeat;}
+.dingpiao a{ height:53px; width:174px; display:block}
+.dingpiao1{margin:270px 0 0 100px; height:53px; width:174px; background:url(../pic/part/dingpiao1.jpg) no-repeat}
+.subframe{width:1000px;background:url(../pic/content_bg1.jpg) no-repeat; text-align:left;}
+.left{ width:680px;background-color:#fff;  float:left;}
+.left2{padding:20px}
+.right{float:right; width:300px; background:url(../pic/right-bg.png);padding:10px}
+
+.mainnav{width:100%;;background:#b9df56;height:56px}
+.ulmain{list-style:none;margin:0 0 0 30px;padding:0;} 
+.ulmain li{float:left;font-size:11pt; font-family:"微软雅黑"}
+.ulmain li a{padding:15px;float:left}
+.ulmain li a:link{color:#444;text-decoration: none;}
+.ulmain li a:visited{color:#444;text-decoration: none;}
+.ulmain li a:hover{color:#444;text-decoration: none;}
+.ulmain li a:active{color:#444;text-decoration: none;}
+.listyleup{padding:15px; background-color:#a9cf46; float:left }
+
+.slide a:link{color:#10a251;text-decoration: none;}
+.slide a:visited{color:#10a251;text-decoration: none;}
+.slide a:hover{color:#0d8845;text-decoration: none;}
+.slide a:active{color:#10a251;text-decoration: none;}
+.topicstyle{color:#222; font-size:16pt;}
+.topicstyle2{color:#777;margin:0;padding:0;line-height:150%}
+.topicstyle3{color:#222}
+.topicstyle4{color:#0d8845}
+.topicstyle5{color:#222;text-indent:2em;margin:0;padding:0;line-height:150%;}
+.topicstyle6{text-indent:2em}
+.picborder{ float:left;margin-right:10px; margin-bottom:10px; border:1px solid #222; padding:5px}
+.divclose{clear:both;}
+
+.artist{width:640px;margin-top:30px}
+.artist a:link{color:#10a251;text-decoration: none;}
+.artist a:visited{color:#10a251;text-decoration: none;}
+.artist a:hover{color:#0a2223;text-decoration: none;}
+.artist a:active{color:#10a251;text-decoration: none;}
+
+.poster{width:100%;margin-top:30px}
+.poster div{margin:10px 0px 10px 10px;text-align:center}
+
+.video{width:640px;margin-top:30px}
+.video div{float:left;margin-left:5px;text-align:center}
+
+.partener{width:100%;margin-top:30px}
+.partener div{ text-align:left}
+.partener div img{ margin-left:20px}
+
+.post{padding-bottom:15px; border-bottom:1px dashed #fff; margin-top:15px; color:#fff}
+
+.song{padding-bottom:15px; border-bottom:1px dashed #fff;margin-bottom:15px;color:#fff}
+
+.mapmargintop{width:100%;height:20p;color:#fff;padding-botom:10px}
+.map{width:100%;height:280px;position:relative}
+
+.weibo{padding-top:15px; border-top:1px dashed #fff; margin-top:15px; color:#fff}
+
+.ps{padding-top:15px; border-top:1px dashed #fff; margin-top:15px; color:#fff}
+
+#tags { POSITION: relative;  MARGIN: 20px auto 0px; WIDTH: 300px; HEIGHT: 300px;padding-top:15px; border-top:1px dashed #fff; margin-top:15px}
+#tags LI {POSITION: absolute; LIST-STYLE-TYPE: none;color:#fff}
+
+.logo{width:100%;background-color:#fff;filter:alpha(Opacity=80);-moz-opacity:0.8;opacity: 0.8}
+.logo img{position:relative}
+
+.declare{width:1000px;HEIGHT: 40px;margin-top:20px;padding-bottom:15px; padding-top:15px;  background:url(../pic/right-bg.png);text-align:center}
+.declare p{font-family:"Arial";color:#aaa}
+
+
+.slidiv{height:167px;width:150px;float:left;margin-left:5px;text-align:center}
+.slidiv a:link{color:#333;text-decoration: none;}
+.slidiv a:visited{color:#333;text-decoration: none;}
+.slidiv a:hover{color:#333;text-decoration: none;}
+.slidiv a:active{color:#333;text-decoration: none;}
+.div1{position:absolute;z-index:3; height:167px;width:150px}
+.diva{position:absolute;z-index:4;padding-top:170px;width:150px;font-weight:bold;color:#333}
+.back{display:none;position:absolute;height:167px;width:150px; background:url(../pic/right-bg.png);z-index:2} 
+.divback{position:absolute;z-index:1; height:167px;width:150px}

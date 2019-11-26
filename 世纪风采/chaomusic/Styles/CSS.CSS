@@ -1,0 +1,51 @@
+﻿
+html,body{background:#73cff1 url(../pic/top_bg.png) no-repeat 50% 0%; text-align:center; font-size:10pt; color:#777; margin:0px; font-family:"宋体"}
+a:link{color:#eee;text-decoration: none;}
+a:visited{color:#eee;text-decoration: none;}
+a:hover{color:#eee;text-decoration: none;}
+a:active{color:#eee;text-decoration: none;}
+
+.mainpage{width:1000px;MARGIN-RIGHT: auto; MARGIN-LEFT: auto; padding:10px; margin-top:20px;}
+.toppic{width:100%; height:300px;background:url(../pic/topic.png) no-repeat}
+.subframe{width:960px;background:#fff url(../pic/content_bg1.jpg) no-repeat; padding:20px;text-align:left;}
+
+.mainnav{width:100%;background:#b9df56 url(../pic/jiantou.png) no-repeat right;margin-top:20px;  height:54px}
+.ulmain li{float:left;list-style-type:none;font-size:12pt; font-family:"微软雅黑"}
+.ulmain li a{padding:15px;float:left}
+.ulmain li a:link{color:#444;text-decoration: none;}s
+.ulmain li a:visited{color:#444;text-decoration: none;}
+.ulmain li a:hover{color:#444;text-decoration: none;}
+.ulmain li a:active{color:#444;text-decoration: none;}
+.listyleup{padding:15px; background-color:#a9cf46; float:left }
+
+.newsbig{height:400px; width:390px; float:left;margin-right:10px; }
+.newsbig a:link{color:#10a251;text-decoration: none;}
+.newsbig a:visited{color:#10a251;text-decoration: none;}
+.newsbig a:hover{color:#0d8845;text-decoration: none;}
+.newsbig a:active{color:#10a251;text-decoration: none;}
+.topicstyle{ color:#222; font-size:16pt;}
+.topicstyle2{color:#777;LINE-HEIGHT:0.5}
+.topicstyle3{color:#222}
+.topicstyle4{color:#0d8845}
+.topicstyle5{color:#222; letter-spacing:1px;}
+.slide{height:400px; width:560px; float:left; font-size:0pt;}
+.slide a img{ border:0px; margin:0px}
+.divclose{clear:both;}
+
+.artist{width:100%;margin-top:20px}
+.artist div{margin:10px 0px 10px 10px;text-align:center; float:left}
+.artist div a:link{color:#10a251;text-decoration: none;}
+.artist div a:visited{color:#10a251;text-decoration: none;}
+.artist div a:hover{color:#0d8845;text-decoration: none;}
+.artist div a:active{color:#10a251;text-decoration: none;}
+.artist div a img{border:0px; margin:0px;}
+
+.poster{width:100%;margin-top:20px}
+
+.partener{width:100%;margin-top:40px}
+.partener div{ text-align:center}
+.partener div img{ margin-left:20px}
+
+.declare{ width:100%; margin-top:10px; text-align:center; color:#fff;font-family:"Arial"}
+.declare div{ margin-top:5px}
+

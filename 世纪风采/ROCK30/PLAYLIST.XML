@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+urlskin:皮肤背景图片
+colorcircle：播放控制区背景色
+ipod_title：播放器名称
+title_color：播放器名称字体色
+ombra：音乐随机播放关闭为：no
+buttoncolor：播放控制按钮颜色
+autoStart：启动时自动播放，关闭为：no
+download：音乐下载开关，关闭为：no
+ipod_volume：播放器初始音量，值为：1~100
+-->
+<player urlskin="skin/nero.jpg" colorcircle="343921" ipod_title="rock30" title_color="343921" ombra="yes" buttoncolor="FFFFFF" autoStart="no" download="yes" ipod_volume="300">
+<song path="http://file.ihou.com/Resource20/mp3/2012-01-12/%E5%94%AF%E4%B8%80.mp3" title="唯一" imgsong="cd_cover/img1.jpg" />
+<song path="http://www.richerdad.com.cn/richerdad/down/%E6%81%8B%E7%88%B1ing.mp3" title="恋爱ing" imgsong="cd_cover/img1.jpg" />
+<song path="http://www.zhanglei.com.cn/%CB%BC%C4%EE%CA%C7%D2%BB%D6%D6%B2%A1.mp3" title="思念是一种病" imgsong="cd_cover/img1.jpg" />
+<song path="http://58.254.132.169/90115000/fulltrack_dl/MP3_40_16_Stero/2011120502/502247.mp3" title="心太软" imgsong="cd_cover/img1.jpg" />
+<song path="http://file.ihou.com/Resource20/mp3/2012-01-12/挪威的森林.mp3 " title="挪威的森林" imgsong="cd_cover/img1.jpg" />
+<song path="http://zhongshenw.com/zsgj/korea/lgyy/201012/W020101228209111878732.mp3 " title="胆小鬼" imgsong="cd_cover/img1.jpg" />
+<song path="http://61.133.116.56:801/reslib/400/009/090/010/270/L000000000002224.mp3  " title="童话" imgsong="cd_cover/img1.jpg" />
+<song path="http://www.fqdf100.com/UploadFiles/129537553809361250.mp3 " title="我以为" imgsong="cd_cover/img1.jpg" />
+</player>
