@@ -16,6 +16,11 @@ ul {
 img {
   display: block;
 }
+/* 主页部分 */
+.content {
+  /* 头部 */
+  /* 图片部分 */
+}
 .content #box {
   position: fixed;
   height: 100px;
