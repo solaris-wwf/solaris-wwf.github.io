@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/vuex.min.js"></script>
+    <link rel="stylesheet" href="./css/index.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <my-header custom-title="通讯录" custom-fixed>
+            <button @click="btnL" slot="left">返回</button>
+            <button @click="btnR" slot="right">主页</button>
+        </my-header>
+        <my-list :user-data="userData"></my-list>
+        <my-alert custom-title="呼叫">
+            <div id="alert_btn">
+                <button>确定</button>
+                <button>取消</button>
+            </div>
+        </my-alert>
+
+    </div>
+</body>
+
+</html>
+<script>
+    //用来模拟数据库的部分
+    var userData = [
+        {
+            'index': 'A', 'users': [
+                { 'name': 'a1', 'phone': '13309990111' },
+                { 'name': 'a2', 'phone': '13309990122' },
+                { 'name': 'a3', 'phone': '13309990133' },
+                { 'name': 'a4', 'phone': '13309990144' }]
+        },
+        {
+            'index': 'B', 'users': [
+                { 'name': 'b1', 'phone': '13309990211' },
+                { 'name': 'b2', 'phone': '13309990222' },
+                { 'name': 'b3', 'phone': '13309990233' },
+                { 'name': 'b4', 'phone': '13309990244' }]
+        },
+        {
+            'index': 'C', 'users': [
+                { 'name': 'c1', 'phone': '13309990311' },
+                { 'name': 'c2', 'phone': '13309990322' },
+                { 'name': 'c3', 'phone': '13309990333' },
+                { 'name': 'c4', 'phone': '13309990344' }]
+        },
+        {
+            'index': 'D', 'users': [
+                { 'name': 'd1', 'phone': '13309990411' },
+                { 'name': 'd2', 'phone': '13309990422' },
+                { 'name': 'd3', 'phone': '13309990433' },
+                { 'name': 'd4', 'phone': '13309990444' }]
+        },
+        {
+            'index': 'E', 'users': [
+                { 'name': 'e1', 'phone': '13309990511' },
+                { 'name': 'e2', 'phone': '13309990522' },
+                { 'name': 'e3', 'phone': '13309990533' },
+                { 'name': 'e4', 'phone': '13309990544' }]
+        },
+        {
+            'index': 'F', 'users': [
+                { 'name': 'f1', 'phone': '13309990611' },
+                { 'name': 'f2', 'phone': '13309990622' },
+                { 'name': 'f3', 'phone': '13309990633' },
+                { 'name': 'f4', 'phone': '13309990444' }]
+        },
+    ];
+    //中央bus来让组件之间通讯数据
+    var busVm = new Vue();
+    //通讯录头部组件
+    Vue.component('my-header', {
+        template: `
+            <div id="header" :style="{'position' : customFixed ? 'fixed' : 'static'}">
+                <slot name="left"></slot>
+                {{customTitle}}
+                <slot name="right"></slot>
+            </div>`,
+        props: {
+            'customTitle': {
+                type: String,
+                default: '标题'
+            },
+            //用来控制是否进行相对于父元素定位
+            'customFixed': {
+                type: Boolean,
+                default: false
+            }
+        }
+    });
+    //通讯录主内容组件
+    Vue.component('my-list', {
+        template: `
+        <div id="list">
+            <ul class="list_user" ref="userList" @touchmove="isMove=true">
+                <li v-for="item in userData">
+                    <p>{{item.index}}</p>
+                    <ul>
+                        <li @touchend="getPhone(user.phone)" v-for="user in item.users">{{user.name}}</li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="list_index" ref="uIndex">
+                <li @touchstart="setScroll" v-for="item in userIndex">{{item}}</li>
+            </ul>
+        </div>
+        `,
+        props: {
+            //获取数据库里的用户数据
+            'userData': {
+                type: Array,
+                default: function () {
+                    return [];
+                }
+            }
+        },
+        data() {
+            return {
+                isMove:false//判断是否用手指滑动，以免触发点击事件
+            }
+        },
+        computed: {
+            //获取数据库里的用户数据
+            userIndex: function () {
+                return this.getList(this.userData);
+            }
+        },
+        methods: {
+            //通讯录右边的快捷栏的数据获取，通过计算属性来绑定到DOM树上
+            getList: function (data) {
+                var list = [];
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].index) {
+                        list.push(data[i].index);
+                    }
+                }
+                return list;
+            },
+            //让右侧快捷栏进行获取数据后，用钩子函数上到DOM树后让元素垂直对齐
+            fixUindex: function () {
+                var iH = this.$refs.uIndex.offsetHeight;
+                this.$refs.uIndex.style.marginTop = -iH / 2 + 'px';
+            },
+            //点击右侧快捷栏让通讯录进行自动定位到相应的位置
+            setScroll: function (ev) {
+                var aP = this.$refs.userList.getElementsByTagName('p');
+                for (var i = 0; i < aP.length; i++) {
+                    if (aP[i].innerHTML == ev.target.innerHTML) {
+                        if (document.body.scrollTop) {
+                            document.body.scrollTop = aP[i].offsetTop;
+                        } else {
+                            document.documentElement.scrollTop = aP[i].offsetTop;
+                        }
+                    }
+                }
+            },
+            getPhone:function(tel){
+                //滑动的时候不触发点击事件
+                if(!this.isMove){
+                    busVm.$emit('connectTel',tel);
+                }else{
+                    this.isMove = false;
+                }
+                
+            }
+        },
+        mounted() {
+            //使用钩子函数，让获取数据之后的右边快捷栏在数据上到DOM后自动进行垂直对齐
+            this.fixUindex();
+        },
+    });
+    //弹框组件
+    Vue.component('my-alert', {
+        template: `
+        <div id="alert" ref="alert">
+            <div id="alert_content">
+                <div id="alert_title">{{customTitle}}</div>
+                <div id="alert_body">{{getPhone}}</div>
+                <slot></slot>
+            </div>
+        </div>
+            `,
+        props: {
+            //默认的标题
+            'customTitle': {
+                type: String,
+                default: '弹框'
+            }
+        },
+        data() {
+            return {
+                'getPhone':''
+            }
+        },
+        //通过中央bus来实现组件之间的通讯，传过来点击的用户的电话号码，显示在呼叫上
+        mounted:function(){
+            busVm.$on('connectTel',function(tel){
+                //加一个bind（this）来让当前的this指向正确，取得电话号码并绑定到data中的getPhone上来让组件中的电话号码显示，并且点击之后让弹窗显示
+                this.getPhone = tel;
+                this.$refs.alert.style.display = 'flex';
+            }.bind(this));
+        }
+    });
+    //主程序部分
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            userData: userData
+        },
+        methods: {
+            //点击头部左按钮事件
+            btnL: function () {
+                alert('leftBtn');
+            },
+            //点击头部右按钮事件
+            btnR: function () {
+                alert('rightBtn');
+            }
+        },
+    })
+
+</script>
